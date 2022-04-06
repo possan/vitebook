@@ -175,7 +175,10 @@ export class Router {
 
     if (routeLocation?.route.redirect) {
       // TODO: this doesn't forward hash or query string
-      await this.go(routeLocation.route.redirect, { replace: true });
+      if (!import.meta.env.SSR) {
+        // Do not redirect on in SSR
+        await this.go(routeLocation.route.redirect, { replace: true });
+      }
       return;
     }
 
